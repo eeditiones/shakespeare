@@ -1,0 +1,8 @@
+{
+  "description": "Shakespeare's Plays (TEI Publisher Edition)",
+  "version": "1.0.0",
+  "dependencies": {
+    "@teipublisher/pb-components": "0.9.32"
+  },
+  "name": "shakespeare6"
+}
