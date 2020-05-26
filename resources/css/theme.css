@@ -1,4 +1,6 @@
 body {
+    --pb-splash-image: url(../images/icon.png);
+    --pb-splash-image-size: 260px;
     --pb-base-font-family: 'Roboto', 'Noto', sans-serif;
     --pb-base-font-size: 16px;
     --pb-base-line-height: 1.42857143;
@@ -54,10 +56,10 @@ body {
     right: 0;
     visibility: hidden;
     opacity: 0;
-    background-image: url(../images/tei-publisher-logo-color.svg);
+    background-image: var(--pb-splash-image);
     background-color: #ffffff;
     background-position: center center;
-    background-size: 360px auto;
+    background-size: var(--pb-splash-image-size) auto;
     background-repeat: no-repeat;
     transition: visibility 0s linear 300ms, opacity 300ms;
 }
