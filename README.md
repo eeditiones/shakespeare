@@ -1,4 +1,5 @@
 [![DOI](https://zenodo.org/badge/267036654.svg)](https://zenodo.org/badge/latestdoi/267036654)
+
 ![TEI Publisher Logo](icon.png) 
 
 # TEI Publisher Shakespeare Demo
