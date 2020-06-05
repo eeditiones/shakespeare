@@ -8,7 +8,7 @@
     <type>application</type>
     <prepare>pre-install.xql</prepare>
     <finish>post-install.xql</finish>
-    <target>shakespeare6</target>
+    <target>shakespeare-pm</target>
     <permissions user="shakes" password="shakes" group="tei" mode="rw-r--r--" />
     <deployed>2020-05-25T18:25:01.637+02:00</deployed>
 </meta>
