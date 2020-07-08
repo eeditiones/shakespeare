@@ -8,7 +8,7 @@
     },
     "sync": {
         "server": "localhost",
-        "root": "/db/apps/shakespeare6",
+        "root": "/db/apps/shakespeare-pm",
         "active": true,
         "ignore": [
             ".existdb.json",
