@@ -278,7 +278,7 @@
                                     </a>
                                     <paper-listbox slot="dropdown-content">
                                         <paper-item>
-                                            <pb-download url="modules/lib/app-download.xql">
+                                            <pb-download url="api/apps/download">
                                                 <pb-i18n key="appgen.xar-download">Download App as .xar</pb-i18n>
                                             </pb-download>
                                         </paper-item>
@@ -310,7 +310,7 @@
 
                 <main>
                     <section>
-                        <h1 class="tp-title" data-template="config:app-title"/>
+                        <h1 class="tp-title"><title data-template="config:app-title"></title></h1>
                         <p>Images and text taken from <a href="http://firstfolio.bodleian.ox.ac.uk/">The Bodleian First Folio</a>: digital 
                             facsimile of the First Folio of Shakespeare&apos;s plays, Bodleian Arch. G c.7.</p>
                     </section>
@@ -318,7 +318,7 @@
                         <paper-card class="doclist" data-i18n="[heading]browse.documents" heading="documents">
                             <div class="card-content">
                                 <div class="browse" slot="page">
-                                    <pb-browse-docs id="document-list" url="collection/" sort-options="[{&#34;label&#34;: &#34;browse.title&#34;, &#34;value&#34;: &#34;title&#34;},{&#34;label&#34;: &#34;browse.author&#34;, &#34;value&#34;: &#34;author&#34;}]" sort-by="title" filter-options="[{&#34;label&#34;: &#34;browse.title&#34;, &#34;value&#34;: &#34;title&#34;},{&#34;label&#34;: &#34;browse.author&#34;, &#34;value&#34;: &#34;author&#34;},{&#34;label&#34;: &#34;browse.file&#34;, &#34;value&#34;: &#34;file&#34;}]" filter-by="title" auto="auto" history="history" login="login" emit="docs" subscribe="docs">
+                                    <pb-browse-docs id="document-list" url="api/collection/" sort-options="[{&#34;label&#34;: &#34;browse.title&#34;, &#34;value&#34;: &#34;title&#34;},{&#34;label&#34;: &#34;browse.author&#34;, &#34;value&#34;: &#34;author&#34;}]" sort-by="title" filter-options="[{&#34;label&#34;: &#34;browse.title&#34;, &#34;value&#34;: &#34;title&#34;},{&#34;label&#34;: &#34;browse.author&#34;, &#34;value&#34;: &#34;author&#34;},{&#34;label&#34;: &#34;browse.file&#34;, &#34;value&#34;: &#34;file&#34;}]" filter-by="title" auto="auto" history="history" login="login" emit="docs" subscribe="docs">
                                         <pb-paginate slot="toolbar" id="paginate" per-page="10" range="5" emit="docs" subscribe="docs"/>
                                     </pb-browse-docs>
                                 </div>
