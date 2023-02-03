@@ -6,9 +6,9 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../../config.xqm";
 import module namespace nlp-config="http://teipublisher.com/api/nlp/config" at "../../nlp-config.xqm";
-import module namespace errors = "http://exist-db.org/xquery/router/errors";
+import module namespace errors = "http://e-editiones.org/roaster/errors";
 import module namespace http = "http://expath.org/ns/http-client";
-import module namespace router="http://exist-db.org/xquery/router";
+import module namespace router="http://e-editiones.org/roaster";
 
 declare function nlp:status($request as map(*)) {
     try {
@@ -255,12 +255,16 @@ declare %private function nlp:absolute-offset($nodes as node()*, $start as xs:in
  : detected entities back to the XML being annotated.
  :)
 declare function nlp:mapping-table($pairs as array(*)*, $accum as xs:int, $debug as xs:boolean?) {
+    nlp:mapping-table((), $pairs, $accum, $debug)
+};
+
+declare function nlp:mapping-table($result as map(*)*, $pairs as array(*)*, $accum as xs:int, $debug as xs:boolean?) {
     if (empty($pairs)) then
-        ()
+        $result
     else
         let $pair := head($pairs)
         let $end := $accum + string-length($pair?2)
-        return (
+        let $entry :=
             if (exists($pair?1)) then
                 map {
                     "node": if ($debug) then util:node-id($pair?1) else $pair?1,
@@ -269,9 +273,9 @@ declare function nlp:mapping-table($pairs as array(*)*, $accum as xs:int, $debug
                     "origOffset": $pair?3
                 }
             else
-                (),
-            nlp:mapping-table(tail($pairs), $end, $debug)
-        )
+                ()
+        return
+            nlp:mapping-table(($result, $entry), tail($pairs), $end, $debug)
 };
 
 (:~
