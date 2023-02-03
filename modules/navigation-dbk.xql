@@ -25,7 +25,7 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "conf
 
 declare function nav:get-root($root as xs:string?, $options as map(*)?) {
     $config:data-root !
-        collection(. || "/" || $root)//dbk:article[ft:query(., "file:*", $options)]
+        collection(. || "/" || $root)//dbk:article[ft:query(., "db-file:*", $options)]
 };
 
 declare function nav:get-header($config as map(*), $node as element()) {
@@ -63,7 +63,7 @@ declare function nav:sort($sortBy as xs:string, $items as element()*) {
         case "date" return
             sort($items, (), ft:field(?, "date", "xs:date"))
         default return
-            sort($items, (), ft:field(?, $sortBy))
+            sort($items, 'http://www.w3.org/2013/collation/UCA', ft:field(?, $sortBy))
 };
 
 declare function nav:get-first-page-start($config as map(*), $data as element()) {
@@ -108,6 +108,15 @@ declare function nav:fill($config as map(*), $div) {
         $div
 };
 
+declare function nav:is-filler($config as map(*), $div) {
+    let $parent := $div/ancestor::dbk:section[count(ancestor-or-self::dbk:section) <= $config?depth][1]
+    return
+        if ($parent and nav:filler($config, $parent)/descendant-or-self::dbk:section[. is $div]) then
+            $parent
+        else
+            ()
+};
+
 (:~
  : By-division view: compute and return the next division to show in sequence.
  :)
@@ -140,7 +149,7 @@ declare function nav:previous-page($config as map(*), $div) {
                 function($ancestor) {
                     exists(nav:filler($config, $ancestor)/descendant-or-self::dbk:section[. is $previous])
                 }
-            )
+            )[1]
             return
                 if ($nearest) then
                     $nearest

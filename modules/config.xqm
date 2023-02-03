@@ -8,7 +8,7 @@ module namespace config="http://www.tei-c.org/tei-simple/config";
 
 import module namespace http="http://expath.org/ns/http-client" at "java:org.exist.xquery.modules.httpclient.HTTPClientModule";
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "navigation.xql";
-import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
+import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "  lib/util.xql";
 
 declare namespace templates="http://exist-db.org/xquery/templates";
 
@@ -26,7 +26,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
  : If a version is given, the components will be loaded from a public CDN.
  : This is recommended unless you develop your own components.
  :)
-declare variable $config:webcomponents :="1.0.2";
+declare variable $config:webcomponents :="1.24.12";
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your
@@ -294,6 +294,114 @@ declare variable $config:default-odd :="shakespeare.odd";
 
 declare variable $config:odd := $config:default-odd;
 
+(:~~
+ : Complete list of ODD files used by the app. If you add another ODD to this list,
+ : make sure to run modules/generate-pm-config.xql to update the main configuration
+ : module for transformations (modules/pm-config.xql).
+ :)
+declare variable $config:odd-available := xmldb:get-child-resources($config:odd-root)[ends-with(., ".odd")];
+
+(:~
+ : List of ODD files which are used internally only, i.e. not for displaying information
+ : to the user.
+ :)
+declare variable $config:odd-internal := "docx.odd";
+
+(:~
+ : Returns a default display configuration as a map for the given collection and
+ : document path. If an empty value is returned, the default configuration (as configured
+ : by global variables in this module) will be
+ : used. If a map is returned, it will be merged with the default configuration, so
+ : you can selectively overwrite particular settings.
+ :
+ : Change this to support different configurations for different collections or document types.
+ : By default this returns a configuration based on the default settings defined
+ : by other variables in this module.
+ : 
+ : @param $collection relative collection path (i.e. with $config:data-root stripped off)
+ : @param $docUri relative document path (including $collection)
+ :)
+declare function config:collection-config($collection as xs:string?, $docUri as xs:string?) {
+    switch ($collection)
+        (: For annotations we need to overwrite document-specific settings :)
+        case "annotate" return
+            map {
+                "template": "annotate.html",
+                "overwrite": true(),
+                "depth": 1,
+                "fill": 0
+            }
+        default return
+            (: Return empty sequence to use default config :)
+            ()
+
+    (: 
+     : Replace line above with the following code to switch between different view configurations per collection.
+     : $collection corresponds to the relative collection path (i.e. after $config:data-root). 
+     :)
+    (:
+    switch ($collection)
+        case "playground" return
+            map {
+                "odd": "dodis.odd",
+                "view": "body",
+                "depth": $config:pagination-depth,
+                "fill": $config:pagination-fill,
+                "template": "facsimile.html"
+            }
+        default return
+            ()
+    :)
+};
+
+(:~
+ : Helper function to retrieve the default config for the given document path.
+ : Delegates to config:collection-config().
+ :)
+declare function config:default-config($docUri as xs:string?) {
+    let $defaultConfig := map {
+        "odd": $config:default-odd,
+        "view": $config:default-view,
+        "depth": $config:pagination-depth,
+        "fill": $config:pagination-fill,
+        "template": $config:default-template
+    }
+    let $collection := 
+        if (exists($docUri)) then
+            replace($docUri, "^(.*)/[^/]+$", "$1") => substring-after($config:data-root || "/")
+        else
+            ()
+    let $collectionConfig :=
+        if (exists($docUri)) then
+            config:collection-config($collection, substring-after($docUri, $config:data-root || "/"))
+        else
+            config:collection-config((), ())
+    return
+        if (exists($collectionConfig)) then
+            map:merge(($defaultConfig, $collectionConfig))
+        else
+            $defaultConfig
+};
+
+declare function config:document-type($div as element()) {
+    switch (namespace-uri($div))
+        case "http://www.tei-c.org/ns/1.0" return
+            "tei"
+        case "http://docbook.org/ns/docbook" return
+            "docbook"
+        default return
+            "jats"
+};
+
+declare function config:get-document($idOrName as xs:string) {
+    if ($config:address-by-id) then
+        root(collection($config:data-root)/id($idOrName))
+    else if (starts-with($idOrName, '/')) then
+        doc(xmldb:encode-uri($idOrName))
+    else
+        doc(xmldb:encode-uri($config:data-root || "/" || $idOrName))
+};
+
 declare variable $config:odd-root := $config:app-root || "/resources/odd";
 
 declare variable $config:output := "transform";
@@ -311,6 +419,8 @@ declare variable $config:repo-descriptor := doc(concat($config:app-root, "/repo.
 declare variable $config:expath-descriptor := doc(concat($config:app-root, "/expath-pkg.xml"))/expath:package;
 
 declare variable $config:session-prefix := $config:expath-descriptor/@abbrev/string();
+
+declare variable $config:default-fields := ();
 
 declare variable $config:dts-collections := map {
     "id": "default",
