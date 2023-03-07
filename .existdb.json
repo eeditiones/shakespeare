@@ -9,6 +9,8 @@
     "sync": {
         "server": "localhost",
         "root": "/db/apps/shakespeare-pm",
+        "polling": true,
+        "interval": 400,
         "active": true,
         "ignore": [
             ".existdb.json",

@@ -96,7 +96,7 @@ declare %private function dapi:generate-html($request as map(*), $outputMode as 
             return
                 if (exists($xml)) then
                     let $config := tpu:parse-pi(root($xml), ())
-                    let $out := 
+                    let $out :=
                         if ($outputMode = 'print') then
                             $pm-config:print-transform($xml, map { "root": $xml, "webcomponents": 7 }, $config?odd)
                         else
@@ -140,6 +140,8 @@ declare function dapi:postprocess($nodes as node()*, $styles as element()*, $scr
                     dapi:postprocess($node/node(), $styles, $scripts, $base, $components)
                 }
             case element(head) return
+                let $oddName := replace($odd, "^.*/([^/\.]+)\.?.*$", "$1")
+                return
                     element { node-name($node) } {
                         $node/@*,
                         if ($base) then
@@ -387,11 +389,11 @@ declare function dapi:get-fragment($request as map(*)) {
     let $path := xmldb:decode-uri($request?parameters?doc)
     let $docs := config:get-document($path)
     return
-        if($docs) 
+        if($docs)
         then (
             cutil:check-last-modified($request, $docs, dapi:get-fragment(?, ?, $path))
         ) else (
-            router:response(404, "text/text", $path)    
+            router:response(404, "text/text", $path)
         )
 };
 
@@ -564,7 +566,7 @@ declare function dapi:table-of-contents($request as map(*)) {
                     error($errors:NOT_FOUND, "Document " || $doc || " not found")
                 })
         ) else (
-            router:response(404, "text/text", $doc)        
+            router:response(404, "text/text", $doc)
         )
 };
 
