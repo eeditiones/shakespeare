@@ -46,12 +46,18 @@
             <param name="content" value="@n"/>
             <param name="facs" value="replace(@facs, '^FFimg:(.*)$', '$1')"/>
             <outputRendition xml:space="preserve">
+            
+            
+            
             font-size: 16px;
 color: #888888;
 cursor: pointer;
 display: inline;
 display: block;                            
 float: right;
+            
+            
+            
             </outputRendition>
         </model>
                 </elementSpec>
@@ -148,18 +154,30 @@ float: right;
                     <model output="web" predicate="@type='catchword'" behaviour="block" cssClass="catchword">
             <outputRendition xml:space="preserve">
             
+            
+            
+            
             float: right;
                             margin-top: 1em;
                             color: #CCC;
+            
+            
+            
             
             </outputRendition>
         </model>
                     <model output="web" predicate="@type='sig'" behaviour="block" cssClass="sig">
             <outputRendition xml:space="preserve">
             
+            
+            
+            
             text-align: center;
                             margin-top: 1em;
                             color: #CCC;
+            
+            
+            
             
             </outputRendition>
         </model>
@@ -203,6 +221,25 @@ float: right;
         </model>
                     <model predicate="parent::body or parent::front or parent::back" behaviour="section"/>
                     <model behaviour="block"/>
+                </elementSpec>
+            <elementSpec ident="fileDesc" mode="change">
+                    <modelSequence predicate="$parameters?header='short'">
+            <model behaviour="graphic" cssClass="cover-image">
+                <param name="url" value="'https://apps.existsolutions.com/cantaloupe/iiif/2/' || substring-after((ancestor::TEI//pb/@facs/string())[1], 'FFimg:') || '/full/92,/0/default.jpg'"/>
+            </model>
+            <model behaviour="block" cssClass="header-short">
+                <param name="content" value="titleStmt"/>
+            </model>
+            <model behaviour="block" cssClass="header-short">
+                <param name="content" value="editionStmt"/>
+            </model>
+            <model behaviour="block" cssClass="header-short">
+                <param name="content" value="publicationStmt"/>
+            </model>
+        </modelSequence>
+                    <model behaviour="title">
+            <param name="content" value="titleStmt"/>
+        </model>
                 </elementSpec>
             </schemaSpec>
         </body>
