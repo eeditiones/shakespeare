@@ -65,9 +65,6 @@
                     <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
                     <app-toolbar class="toolbar" sticky="sticky">
                         <paper-icon-button id="tocToggle" class="toc-toggle" icon="icons:view-list"/>
-                        <pb-toggle-feature name="norm" selector="br" emit="transcription" default="on" subscribe="transcription">
-                            <pb-i18n key="document.normalized">Normalized View</pb-i18n>
-                        </pb-toggle-feature>
                         <pb-restricted login="login">
                             <pb-ajax subscribe="transcription" emit="transcription" url="${app}/modules/lib/regenerate.xql" data-template="pages:parse-params" event="pb-refresh" title="Recompile ODD" data-i18n="[title]menu.admin.recompile">
                                 <h3 slot="title">
@@ -109,7 +106,7 @@
                         show-full-page-control="show-full-page-control"
                         show-navigation-control="show-navigation-control" 
                         show-home-control="show-home-control"
-                        show-navigator="show-navigator" 
+                        show-navigator="show-navigator"                         
                         subscribe="transcription"/>
                 </main>
             </app-header-layout>
