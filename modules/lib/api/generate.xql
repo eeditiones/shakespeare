@@ -96,7 +96,7 @@ declare variable $deploy:ANT_FILE :=
             <copy todir="resources/lib">
                 <fileset dir="node_modules/@teipublisher/pb-components/lib"/>
             </copy>
-
+            
             <copy todir="resources/i18n/common">
                 <fileset dir="${scripts.dir}/../i18n/common" />
             </copy>
