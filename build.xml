@@ -76,11 +76,11 @@
 
 
     <target name="xar" depends="clean,filter">
-        <zip basedir="${app.build.dir}" destfile="${build.dir}/${project.app}-${project.version}.xar" excludes="${build.dir}/* node_modules/**"/>
+        <zip basedir="${app.build.dir}" destfile="${build.dir}/${project.app}-${project.version}.xar" excludes="${build.dir}/* node_modules/** .devcontainer/*"/>
     </target>
 
     <target name="xar-local" depends="clean,npm.install,git.revision,filter,prepare">
-      <zip basedir="${app.build.dir}" destfile="${build.dir}/${project.app}-${project.version}.xar" excludes="${build.dir}/* node_modules/**"/>
+      <zip basedir="${app.build.dir}" destfile="${build.dir}/${project.app}-${project.version}.xar" excludes="${build.dir}/* node_modules/** .devcontainer/*"/>
     </target>
 
     <target name="npm.install">

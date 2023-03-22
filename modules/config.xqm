@@ -58,7 +58,7 @@ declare variable $config:enable-proxy-caching :=
  : In this case, change $config:webcomponents-cdn to point to http://localhost:port
  : (default: 8000, but check where your server is running).
  :)
-declare variable $config:webcomponents := "1.43.1";
+declare variable $config:webcomponents := "2.3.0";
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your
@@ -322,6 +322,12 @@ declare variable $config:data-root := $config:app-root || "/data";
  : on the entry page. Can be different from $config:data-root.
  :)
 declare variable $config:data-default := $config:data-root;
+
+
+(:~
+ : Location of the taxonomies.
+ :)
+declare variable $config:taxonomy := $config:data-root || "/taxonomy.xml";
 
 (:~
  : A sequence of root elements which should be excluded from the list of

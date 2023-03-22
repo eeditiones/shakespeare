@@ -45,19 +45,14 @@
             <param name="name" value="'pb-facs-link'"/>
             <param name="content" value="@n"/>
             <param name="facs" value="replace(@facs, '^FFimg:(.*)$', '$1')"/>
+            <param name="emit" value="'transcription'"/>
             <outputRendition xml:space="preserve">
-            
-            
-            
             font-size: 16px;
 color: #888888;
 cursor: pointer;
 display: inline;
 display: block;                            
 float: right;
-            
-            
-            
             </outputRendition>
         </model>
                 </elementSpec>
@@ -157,9 +152,13 @@ float: right;
             
             
             
+            
+            
             float: right;
                             margin-top: 1em;
                             color: #CCC;
+            
+            
             
             
             
@@ -172,9 +171,13 @@ float: right;
             
             
             
+            
+            
             text-align: center;
                             margin-top: 1em;
                             color: #CCC;
+            
+            
             
             
             

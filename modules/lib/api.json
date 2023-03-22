@@ -8,7 +8,7 @@
 	"servers": [
 		{
 			"description": "Endpoint for testing on localhost",
-			"url": "http://localhost:8080/exist/apps/tei-publisher"
+			"url": "http://localhost:8080/exist/apps/shakespeare-pm"
 		}
 	],
 	"tags": [
@@ -16,7 +16,7 @@
 			"name": "documents",
 			"description": "Retrieve document content transformed to target format"
 		},
-		{
+		{			
 			"name": "collection",
 			"description": "Browse the collection hierarchy and upload new files"
 		},
@@ -1032,6 +1032,30 @@
 						"schema": {
 							"type": "string",
 							"example": "docbook.odd"
+						}
+					},
+					{
+						"name": "images-collection",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"example": "/apps/tei-publisher/data"
+						}
+					},
+					{
+						"name": "skip-title",
+						"in": "query",
+						"schema": {
+							"type": "boolean",
+							"example": "true"
+						}
+					},
+					{
+						"name": "cover-image",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"example": "images/cover.jpg"
 						}
 					}
 				],
