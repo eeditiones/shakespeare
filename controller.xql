@@ -58,10 +58,10 @@ else if (matches($exist:path, "^.*/(resources|transform|templates)/.*$")
                     <set-header name="Cache-Control" value="no-cache"/>
                 else if (contains($exist:path, "/resources/fonts/")) then
                     <set-header name="Cache-Control" value="max-age=31536000"/>
-                else (
-                    <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>,
-                    if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/>
-                )
+                else
+                    (),
+                <set-header name="Access-Control-Allow-Origin" value="{$allowOrigin}"/>,
+                if ($allowOrigin = "*") then () else <set-header name="Access-Control-Allow-Credentials" value="true"/>
             }
             </forward>
         </dispatch>
@@ -69,7 +69,9 @@ else if (matches($exist:path, "^.*/(resources|transform|templates)/.*$")
 (: other images are resolved against the data collection and also returned directly :)
 else if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt|mei)$", "s")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/data/{$exist:path}"/>
+        <forward url="{$exist:controller}/data/{$exist:path}">
+            <set-header name="Cache-Control" value="max-age=31536000"/>
+        </forward>
     </dispatch>
 
 (: all other requests are passed on the Open API router :)
@@ -89,6 +91,5 @@ else
                 <set-header name="Access-Control-Allow-Methods" value="GET, POST, DELETE, PUT, PATCH, OPTIONS"/>
                 <set-header name="Access-Control-Allow-Headers" value="Content-Type, api_key, Authorization"/>
                 <set-header name="Access-Control-Expose-Headers" value="pb-start, pb-total"/>
-                <set-header name="Cache-Control" value="no-cache"/>
             </forward>
         </dispatch>

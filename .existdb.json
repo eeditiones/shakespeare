@@ -15,8 +15,12 @@
         "ignore": [
             ".existdb.json",
             ".git/**",
+            ".devcontainer/**",
+            "components/**",
             "node_modules/**",
-            "bower_components/**"
+            "bower_components/**",
+            "build/**",
+            "webtest/**"
         ]
     }
 }

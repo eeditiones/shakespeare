@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
     <link rel="stylesheet" href="resources/css/theme.css"/>
+    <link rel="stylesheet" href="resources/css/shakespeare-theme.css"/>
     <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"/>
     <style>
         body {
@@ -65,9 +66,6 @@
                     <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
                     <app-toolbar class="toolbar" sticky="sticky">
                         <paper-icon-button id="tocToggle" class="toc-toggle" icon="icons:view-list"/>
-                        <pb-toggle-feature name="norm" selector="br" emit="transcription" default="on" subscribe="transcription">
-                            <pb-i18n key="document.normalized">Normalized View</pb-i18n>
-                        </pb-toggle-feature>
                         <pb-restricted login="login">
                             <pb-ajax subscribe="transcription" emit="transcription" url="${app}/modules/lib/regenerate.xql" data-template="pages:parse-params" event="pb-refresh" title="Recompile ODD" data-i18n="[title]menu.admin.recompile">
                                 <h3 slot="title">
@@ -101,10 +99,16 @@
                     <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt" view="single">
                         <pb-param name="mode" value="title"/>
                     </pb-view>
-                </section>
+                </section>                
                 <main class="content-body">
                     <pb-view id="view1" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" wait-for="#facsimile"/>
-                    <pb-facsimile id="facsimile" base-uri="https://apps.existsolutions.com/cantaloupe/iiif/2/" default-zoom-level="0" show-navigation-control="show-navigation-control" show-navigator="show-navigator" subscribe="transcription"/>
+                    <pb-facsimile id="facsimile" base-uri="https://apps.existsolutions.com/cantaloupe/iiif/2/" 
+                        default-zoom-level="0" 
+                        show-full-page-control="show-full-page-control"
+                        show-navigation-control="show-navigation-control" 
+                        show-home-control="show-home-control"
+                        show-navigator="show-navigator"                         
+                        subscribe="transcription"/>
                 </main>
             </app-header-layout>
         </app-drawer-layout>
