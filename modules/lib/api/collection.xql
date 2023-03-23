@@ -16,26 +16,18 @@ import module namespace query="http://www.tei-c.org/tei-simple/query" at "../que
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 
 declare function capi:list($request as map(*)) {
-    let $log := util:log("info", "capi:list")    
     let $path := if ($request?parameters?path) then xmldb:decode($request?parameters?path) else ()
-    let $log := util:log("info", "capi:list path: " || $path)    
     let $params := capi:params2map($path)
     let $cached := session:get-attribute($config:session-prefix || ".works")
     let $useCached := capi:use-cache($params, $cached)
-    let $log := util:log("info", "capi:list $useCached: " || $useCached) 
     let $works := capi:list-works($path, if ($useCached) then $cached else (), $params)
     let $templatePath := $config:data-root || "/" || $path || "/collection.html"
-    let $log := util:log("info", "capi:list $templatePath: " || $templatePath) 
     let $templateAvail := doc-available($templatePath) or util:binary-doc-available($templatePath)
-    let $log := util:log("info", "capi:list templateAvail : " || $templateAvail ) 
-    let $log := util:log("info", "capi:list  $works?mode: " || $works?mode ) 
-    
     let $template := 
         if ($templateAvail and $works?mode = 'browse') then 
             $templatePath
         else
             $config:app-root || "/templates/documents.html"
-    let $log := util:log("info", "capi:list  $template: " || $template )             
     let $lookup := function($name as xs:string, $arity as xs:int) {
         try {
             let $cfun := custom:lookup($name, $arity)
@@ -56,7 +48,8 @@ declare function capi:list($request as map(*)) {
         templates:apply(doc($template), $lookup, $model, tpu:get-template-config($request))
 };
 
-declare     
+declare
+    %private
 function capi:list-works($root as xs:string?, $cached, $params as map(*)) {
     (: session:clear(), :)
     let $sort := request:get-parameter("sort", "title")

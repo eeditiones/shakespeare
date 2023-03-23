@@ -46,22 +46,6 @@ declare function app:is-writeable($node as node(), $model as map(*)) {
         }
 };
 
-declare function app:list-works($node as node(), $model as map(*)) {
-    let $path := $config:data-root || "/" || $model?root
-    let $writable := sm:has-access(xs:anyURI($path), "rw-")
-    return
-        element { node-name($node) } {
-            $node/@* except $node/@class,
-            attribute class {
-                string-join(($node/@class, if ($writable) then "writable" else ()), " ")
-            },
-            attribute data-root {
-                $model?root
-            },
-            templates:process($node/node(), $model)
-        }
-};
-
 declare 
     %templates:wrap
 function app:clear-facets($node as node(), $model as map(*)) {
