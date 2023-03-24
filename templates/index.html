@@ -267,14 +267,12 @@
                 <app-header-layout>
                 <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
                     <app-toolbar class="menubar">
-                        <a href="${app}/index.html" class="logo" data-template="pages:parse-params">
-                            <img src="resources/images/icon.png"/>
-                        </a>
+                        <a href="${app}/index.html" class="logo" data-template="pages:parse-params"></a>
                         <pb-media-query query="(min-width: 1024px)">
                             <a href="${app}/index.html" data-template="pages:parse-params">Start</a>
                             <pb-restricted login="login" group="tei">
                                 <paper-menu-button>
-                                    <a href="#" slot="dropdown-trigger">
+                                    <a slot="dropdown-trigger">
                                         <pb-i18n key="menu.admin.title">Admin</pb-i18n>
                                     </a>
                                     <paper-listbox slot="dropdown-content">
