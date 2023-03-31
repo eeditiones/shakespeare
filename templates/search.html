@@ -2,17 +2,16 @@
 <html>
     <head>
         <meta charset="utf-8"/>
+        <title data-template="config:app-title"/>
         <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
         <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
         <link rel="shortcut icon" type="image/png" href="resources/images/favicon-16.png" sizes="16x16"/>
         <link rel="shortcut icon" type="image/png" href="resources/images/favicon-24.png" sizes="24x24"/>
         <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32"/>
         <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
-
-        <title data-template="config:app-title"/>
-        <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
         <link rel="stylesheet" href="resources/css/theme.css"/>
+        <link rel="stylesheet" href="resources/css/shakespeare-theme.css"/>
         <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"/>
 
         <style>
@@ -111,38 +110,37 @@
             <app-header-layout>
                 <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
                     <app-toolbar class="menubar">
-                        <a href="${app}/index.html" class="logo" data-template="pages:parse-params">
-                            <img src="resources/images/tei-publisher-logo-contrast-color.svg"/>
-                        </a>
-                        <a href="${app}/index.html" data-template="pages:parse-params">Start</a>
-                        <paper-menu-button>
-                            <a href="#" slot="dropdown-trigger">
-                                <pb-i18n key="menu.documentation">Documentation</pb-i18n>
-                            </a>
-                            <paper-listbox slot="dropdown-content">
-                                <paper-item>
-                                    <a href="${app}/doc/documentation.xml?odd=docbook.odd" data-template="pages:parse-params">
-                                        <pb-i18n key="menu.documentation">Documentation</pb-i18n>
+                        <a href="${app}/index.html" class="logo" data-template="pages:parse-params"></a>
+                        <pb-media-query query="(min-width: 1024px)">
+                            <a href="${app}/index.html" data-template="pages:parse-params">Start</a>
+                            <pb-restricted login="login" group="tei">
+                                <paper-menu-button>
+                                    <a slot="dropdown-trigger">
+                                        <pb-i18n key="menu.admin.title">Admin</pb-i18n>
                                     </a>
-                                </paper-item>
-                                <paper-item>
-                                    <a href="${app}/doc/documentation.xml?odd=docbook.odd&amp;id=faq" data-template="pages:parse-params">FAQ</a>
-                                </paper-item>
-                            </paper-listbox>
-                        </paper-menu-button>
-                        <a href="http://gitlab.exist-db.org/tei-publisher/" title="View code on Gitlab">
-                            <img src="resources/images/wm_no_bg.svg" height="20"/>
-                        </a>
+                                    <paper-listbox slot="dropdown-content">
+                                        <paper-item>
+                                            <pb-download url="api/apps/download">
+                                                <pb-i18n key="appgen.xar-download">Download App as .xar</pb-i18n>
+                                            </pb-download>
+                                        </paper-item>
+                                    </paper-listbox>
+                                </paper-menu-button>
+                            </pb-restricted>
+                            <a href="https://github.com/eeditiones/shakespeare" title="View code on GitHub" class="gitlab">
+                                <img src="resources/images/github.svg" />
+                            </a>
+                            <!-- Search input -->
+                            <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}" redirect="redirect"/>
 
-                        <!-- Search input -->
-                        <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}" redirect="redirect"/>
-
-                        <!-- language selector -->
-                        <pb-lang name="lang" data-template="pages:languages"/>
-                        <pb-login group="tei">
+                            <!-- language selector -->
+                            <pb-lang name="lang" data-template="pages:languages"/>
+                        </pb-media-query>
+                        <pb-login id="login" group="tei">
                             <iron-icon slot="icon" icon="account-circle"/>
                         </pb-login>
-                    </app-toolbar>
+                        <pb-progress indeterminate="indeterminate" bottom-item="bottom-item" subscribe="docs"/>                    
+                    </app-toolbar>                        
                     <app-toolbar>
                         <pb-paginate per-page="10" range="5" subscribe="results"/>
                         <pb-progress indeterminate="indeterminate" bottom-item="bottom-item"/>
