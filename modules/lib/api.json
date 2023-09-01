@@ -8,7 +8,7 @@
 	"servers": [
 		{
 			"description": "Endpoint for testing on localhost",
-			"url": "http://localhost:8080/exist/apps/shakespeare-pm"
+			"url": "/exist/apps/shakespeare-pm"
 		}
 	],
 	"tags": [
@@ -16,7 +16,7 @@
 			"name": "documents",
 			"description": "Retrieve document content transformed to target format"
 		},
-		{			
+		{
 			"name": "collection",
 			"description": "Browse the collection hierarchy and upload new files"
 		},
@@ -1577,6 +1577,9 @@
 											"type": "string"
 										},
 										"report": {
+											"type": "string"
+										},
+										"source": {
 											"type": "string"
 										}
 									}

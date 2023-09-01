@@ -30,9 +30,9 @@ declare variable $deploy:EXPATH_DESCRIPTOR :=
     <package xmlns="http://expath.org/ns/pkg"
         version="0.1" spec="1.0">
         <dependency processor="http://exist-db.org" semver-min="5.3.0"/>
-        <dependency package="http://exist-db.org/html-templating"/>
+        <dependency package="http://exist-db.org/html-templating" semver="1"/>
         <dependency package="http://existsolutions.com/apps/tei-publisher-lib" semver="3"/>
-        <dependency package="http://e-editiones.org/roaster" semver-min="1.7.3"/>
+        <dependency package="http://e-editiones.org/roaster" semver="1"/>
     </package>
 ;
 
@@ -60,7 +60,7 @@ declare variable $deploy:ANT_FILE :=
         <xmlproperty file="expath-pkg.xml"/>
 
         <!-- Adjust path below to match location of your npm binary -->
-        <property name="npm" value="/usr/local/bin/npm"/>
+        <property name="npm" value="npm"/>
 
         <property name="project.version" value="${{package(version)}}"/>
         <property name="project.app" value="${{package(abbrev)}}"/>
@@ -353,7 +353,7 @@ declare function deploy:expand($collection as xs:string, $resource as xs:string,
 
 declare function deploy:store-libs($target as xs:string, $userData as xs:string+, $permissions as xs:string) {
     let $path := $config:app-root || "/modules"
-    for $lib in ("map.xql", "facets.xql", "annotation-config.xqm", "nlp-config.xqm", xmldb:get-child-resources($path)[starts-with(., "navigation")],
+    for $lib in ("map.xql", "facets.xql", "annotation-config.xqm", "nlp-config.xqm", "iiif.xql", xmldb:get-child-resources($path)[starts-with(., "navigation")],
         xmldb:get-child-resources($path)[starts-with(., "query")])
     return (
         xmldb:copy-resource($path, $lib, $target || "/modules", $lib)
@@ -426,7 +426,7 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         "^(.*\$config:data-root\s*:=).*;$": $dataRoot || ";",
         "^(.*\$config:default-odd :=).*;$": '"' || head(deploy:get-odds($json)) || '";',
         "^(.*\$config:odd-available :=).*;$": '(' || string-join(deploy:get-odds($json) ! ('"' || . || '"'), ', ') || ');',
-        '^(.*"url"\s*:).*$': '"http://localhost:8080/exist/apps/' || $json?abbrev || '"'
+        '^(.*"url"\s*:).*$': '"/exist/apps/' || $json?abbrev || '"'
     }
     let $created := (
         deploy:store-expath-descriptor($collection, $json),
@@ -442,6 +442,7 @@ declare function deploy:create-app($collection as xs:string, $json as map(*)) {
         deploy:expand($collection || "/modules", "config.xqm", $replacements),
         deploy:store-libs($collection, ($json?owner, "tei"), "rw-r--r--"),
         deploy:expand($collection || "/modules/lib", "api.json", $replacements),
+        deploy:copy-resource($collection || "/modules", $base || "/modules", "custom-api.json", ($json?owner, "tei"), "rw-r--r--"),
         deploy:expand($collection || "/modules", "custom-api.json", $replacements),
         deploy:copy-odd($collection, $json),
         deploy:create-transform($collection),

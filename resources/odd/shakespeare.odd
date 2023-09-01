@@ -43,19 +43,21 @@
                 <elementSpec ident="pb" mode="change">
                     <model output="print" behaviour="omit"/>
                     <model behaviour="webcomponent" cssClass="facs">
-            <param name="name" value="'pb-facs-link'"/>
-            <param name="content" value="@n"/>
-            <param name="facs" value="replace(@facs, '^FFimg:(.*)$', '$1')"/>
-            <param name="emit" value="'transcription'"/>
-            <outputRendition xml:space="preserve">
-            font-size: 16px;
-color: #888888;
-cursor: pointer;
-display: inline;
-display: block;                            
-float: right;
-            </outputRendition>
-        </model>
+                        <param name="name" value="'pb-facs-link'"/>
+                        <param name="content" value="@n"/>
+                        <param name="emit" value="'transcription'"/>
+                        <param name="facs" value="replace(@facs, '^FFimg:(.*)$', '$1')"/>
+                        <param name="order" value="count($get(.)/preceding::pb) + 1"/>
+                        <outputRendition xml:space="preserve">
+                        font-size: 16px;
+            color: #888888;
+            cursor: pointer;
+            display: inline;
+            display: block;
+            margin-right: -32px;
+            float: right;
+                        </outputRendition>
+                    </model>
                 </elementSpec>
                 <elementSpec ident="lb" mode="change">
                     <model predicate="not(parent::p)" behaviour="omit"/>

@@ -17,13 +17,13 @@
     <link rel="stylesheet" href="resources/css/theme.css"/>
     <link rel="stylesheet" href="resources/css/shakespeare-theme.css"/>
     <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"/>
+    <script type="module" src="pb-tify.js" data-template="pages:load-components"/>
     <style>
         body {
             --pb-view-height: calc(100vh - 212px);
         }
 
         #view1 {
-            flex: 2 1;
             height: var(--pb-view-height);
             overflow: auto;
         }
@@ -34,18 +34,17 @@
 
         .content-body {
             position: relative;
-            display: flex;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: minmax(auto, var(--pb-view-max-width)) 50vw;
             padding: 0 20px;
         }
 
-        .content-body pb-facsimile {
-            flex: 1 1;
+        .content-body pb-tify {
             height: var(--pb-view-height);
         }
 
         @media (max-width: 769px) {
-            pb-facsimile {
+            pb-tify {
                 display: none;
             }
         }
@@ -102,13 +101,7 @@
                 </section>                
                 <main class="content-body">
                     <pb-view id="view1" src="document1" column-separator=".tei-cb" append-footnotes="append-footnotes" subscribe="transcription" emit="transcription" wait-for="#facsimile"/>
-                    <pb-facsimile id="facsimile" base-uri="https://apps.existsolutions.com/cantaloupe/iiif/2/" 
-                        default-zoom-level="0" 
-                        show-full-page-control="show-full-page-control"
-                        show-navigation-control="show-navigation-control" 
-                        show-home-control="show-home-control"
-                        show-navigator="show-navigator"                         
-                        subscribe="transcription"/>
+                    <pb-tify subscribe="transcription" emit="transcription" manifest="api/iiif/${docid}" data-template="pages:parse-params"></pb-tify>
                 </main>
             </app-header-layout>
         </app-drawer-layout>
