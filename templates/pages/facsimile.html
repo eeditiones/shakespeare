@@ -44,6 +44,10 @@
         }
 
         @media (max-width: 769px) {
+            .content-body {
+                grid-template-columns: minmax(auto, var(--pb-view-max-width));
+            }
+            
             pb-tify {
                 display: none;
             }
