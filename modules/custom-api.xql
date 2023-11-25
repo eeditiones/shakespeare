@@ -11,7 +11,6 @@ module namespace api="http://teipublisher.com/api/custom";
 (: Add your own module imports here :)
 import module namespace rutil="http://e-editiones.org/roaster/util";
 import module namespace app="teipublisher.com/app" at "app.xql";
-import module namespace iiif="https://stonesutras.org/api/iiif" at "iiif.xql";
 
 (:~
  : Keep this. This function does the actual lookup in the imported modules.

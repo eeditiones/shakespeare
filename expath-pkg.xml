@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package xmlns="http://expath.org/ns/pkg" spec="1.0" version="2.0.2" name="http://teipublisher.com/apps/shakespeare6" abbrev="shakespeare-pm">
     <title>Shakespeare's Plays (TEI Publisher Edition)</title>
-    <dependency processor="http://exist-db.org" semver-min="5.3.0" />
+    <dependency processor="http://exist-db.org" semver-min="6.2.0" />
     <dependency package="http://exist-db.org/html-templating" semver="1"/>
-    <dependency package="http://existsolutions.com/apps/tei-publisher-lib" semver="3" />
+    <dependency package="http://existsolutions.com/apps/tei-publisher-lib" semver="4" />
     <dependency package="http://e-editiones.org/roaster" semver="1"/>
 </package>

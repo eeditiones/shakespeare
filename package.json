@@ -2,7 +2,7 @@
   "description": "Shakespeare's Plays (TEI Publisher Edition)",
   "version": "2.0.2",
   "dependencies": {
-    "@teipublisher/pb-components": "2.12.6"
+    "@teipublisher/pb-components": "2.15.1"
   },
   "name": "shakespeare6"
 }
